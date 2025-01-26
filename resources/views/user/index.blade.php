@@ -5,8 +5,8 @@
             <div class="card-body">
                 <h5 class="card-title">Table Catagories</h5>
 
-                <button type="button" class="btn btn-prima" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable">
-                    Add
+                <button type="button" class="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#modalDialogScrollable">
+                    <b> + Add </b>
                 </button>
 
                 <!-- Table with stripped rows -->
@@ -73,15 +73,15 @@
     <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <form action="{{ route('categori.store') }}" method="POST">
+                <form action="{{ route('user.store') }}" method="POST">
                     @csrf <!-- Token CSRF Laravel -->
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Category</h5>
+                        <h5 class="modal-title">Add User</h5>
                         <button type="button" class="btn-close btn-lg" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row mb-3">
-                            <label for="id_user" class="col-sm-2 col-form-label">ID Categori</label>
+                            <label for="id_user" class="col-sm-2 col-form-label">ID User</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="id_user" id="id_user"
                                     placeholder="Enter category id_user">
@@ -94,6 +94,50 @@
                                     placeholder="Enter category name">
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="username" class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="username" id="username"
+                                    placeholder="Enter category username">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="password" class="col-sm-2 col-form-label">Passwrod</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password" id="password"
+                                    placeholder="Enter category password">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" id="email"
+                                    placeholder="Enter category email">
+                            </div>
+                        </div>
+                        <fieldset class="row mb-3">
+                            <label class="col-form-label col-sm-2 pt-0" for="role">Role</label>
+                            <div class="col-sm-10">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="admin" value="admin" >
+                                <label class="form-check-label" for="admin">
+                                    Admin
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="petugas" value="petugas">
+                                <label class="form-check-label" for="petugas">
+                                  Petugas
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="pegawai" value="pegawai">
+                                <label class="form-check-label" for="pegawai">
+                                    Pegawai
+                                </label>
+                              </div>
+                            </div>
+                          </fieldset>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -103,7 +147,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal Edit -->
     <div class="modal fade" id="modalEditCategory" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -112,14 +155,14 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Category</h5>
+                        <h5 class="modal-title">Edit User</h5>
                         <button type="button" class="btn-close btn-lg" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row mb-3">
                             <label for="edit_id_user" class="col-sm-2 col-form-label">ID</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="id_user" id="edit_id_categori">
+                                <input type="text" class="form-control" name="id_user" id="edit_id_user">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -128,6 +171,47 @@
                                 <input type="text" class="form-control" name="name" id="edit_name">
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="edit_username" class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="username" id="edit_username">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="edit_password" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="password" id="edit_password ">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="edit_email" class="col-sm-2 col-form-label">email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="email" id="edit_email">
+                            </div>
+                        </div>
+                        <fieldset class="row mb-3">
+                            <label class="col-form-label col-sm-2 pt-0" for="role">Role</label>
+                            <div class="col-sm-10">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="edit_admin" value="admin" >
+                                <label class="form-check-label" for="admin">
+                                    Admin
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="edit_petugas" value="petugas">
+                                <label class="form-check-label" for="petugas">
+                                  Petugas
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="edit_pegawai" value="pegawai">
+                                <label class="form-check-label" for="pegawai">
+                                    Pegawai
+                                </label>
+                              </div>
+                            </div>
+                          </fieldset>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -142,16 +226,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Event untuk tombol Edit
+        // Event untuk tombol Edit//
         $('.editCategory').on('click', function() {
             var id = $(this).data('id');
-            var url = '{{ route('categori.edit', ':id') }}'.replace(':id', id);
+            var url = '{{ route('user.edit', ':id') }}'.replace(':id', id);
 
             $.get(url, function(data) {
-                $('#edit_id_categori').val(data.id_categori);
+                $('#edit_id_user').val(data.id_user);
+                $('#edit_name').val(data.name);
+                $('#edit_username').val(data.username);
+                $('#edit_password').val(data.password);
+                $('#edit_email').val(data.email);
                 $('#edit_name').val(data.name);
 
-                var updateUrl = '{{ route('categori.update', ':id') }}'.replace(':id', id);
+                var updateUrl = '{{ route('user.update', ':id') }}'.replace(':id', id);
                 $('#editCategoryForm').attr('action', updateUrl);
 
                 $('#modalEditCategory').modal('show');
@@ -163,7 +251,7 @@
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 2000,
+            timer: 3000,
             timerProgressBar: true,
             didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;
