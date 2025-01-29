@@ -1,5 +1,11 @@
 @extends('layouts.index')
 @section('content')
+<style>
+    .btn {
+            margin-right: 3px;
+            /* Add spacing between buttons */
+        }
+</style>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -10,50 +16,54 @@
                 </button>
 
                 <!-- Table with stripped rows -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">NO</th>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">created</th>
-                            <th scope="col">updated</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $no = ($kt->currentPage() - 1) * $kt->perPage() + 1;
-                        @endphp
-                        @forelse ($kt as $customer)
+                <div class="table-responsive pt-1">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $no++ }}</th>
-                                <td>{{ $customer->id_categori }}</td>
-                                <td>{{ $customer->name }}</td>
-                                <td>{{ $customer->created_at }}</td>
-                                <td>{{ $customer->updated_at }}</td>
-                                <td>
-                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm editCategory"
-                                        data-id="{{ $customer->id_categori }}">
-                                        <i class="bi-pen-fill"></i>
-                                    </a>
-                                    <form action="{{ route('categori.destroy', $customer->id_categori) }}" method="POST"
-                                        style="display:inline-block;" class="delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm delete-button"
-                                            ><i class="bi-trash-fill"></i></button>
-                                    </form>
-                                    {{-- <a class="btn btn-danger btn-sm "><i class="bi-trash-fill"></i></a> --}}
-                                </td>
+                                <th scope="col">NO</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">created</th>
+                                <th scope="col">updated</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center">No categori found</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @php
+                                $no = ($kt->currentPage() - 1) * $kt->perPage() + 1;
+                            @endphp
+                            @forelse ($kt as $customer)
+                                <tr>
+                                    <th scope="row">{{ $no++ }}</th>
+                                    <td>{{ $customer->id_categori }}</td>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->created_at }}</td>
+                                    <td>{{ $customer->updated_at }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="javascript:void(0)" class="btn btn-warning btn-sm editCategory"
+                                                data-id="{{ $customer->id_categori }}">
+                                                <i class="bi-pen-fill"></i>
+                                            </a>
+                                            <form action="{{ route('categori.destroy', $customer->id_categori) }}"
+                                                method="POST" style="display:inline-block;" class="delete-form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm delete-button"><i
+                                                        class="bi-trash-fill"></i></button>
+                                            </form>
+                                        </div>
+                                        {{-- <a class="btn btn-danger btn-sm "><i class="bi-trash-fill"></i></a> --}}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No categori found</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
                 <div class="d-flex justify-content-center">
                     {{ $kt->links('pagination::bootstrap-5') }}
                 </div>
@@ -177,24 +187,22 @@
             });
         @endif
         $(document).on('click', '.delete-button', function(e) {
-        e.preventDefault();
-        let form = $(this).closest('form');
-        Swal.fire({
-            title: 'Are you sure delete this category?',
-            text: "you can't return this item!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Delete!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
+            e.preventDefault();
+            let form = $(this).closest('form');
+            Swal.fire({
+                title: 'Are you sure delete this category?',
+                text: "you can't return this item!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Delete!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         });
-    });
-
-
     </script>
 @endsection
