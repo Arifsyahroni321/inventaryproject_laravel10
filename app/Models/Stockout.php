@@ -11,7 +11,9 @@ class Stockout extends Model
     protected $table = 'stock_out';
 
     protected $primaryKey = 'id_stockout';
-    protected $fillable = ['id_product','product_id', 'quantity', 'date', 'removed_by','descr','created_at','updated_at'];
+    public $incrementing = false; // Karena bukan integer dan tidak auto-increment
+    protected $keyType = 'string'; // Pastikan tipe kunci utama adalah string
+    protected $fillable = ['product_id', 'quantity', 'date', 'removed_by','description','created_at','updated_at'];
 
     public function product()
     {

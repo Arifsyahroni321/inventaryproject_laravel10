@@ -27,13 +27,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ Request::is('') ? '' : 'collapsed' }}" href="users-profile.html">
+        <a class="nav-link {{ Request::is('stockout') ? '' : 'collapsed' }}" href="{{ url('stockout') }}">
           <i class="bi bi-clock-history"></i>
-          <span>Loans Record</span>
+          <span>Stock Out</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ Request::is('') ? '' : 'collapsed' }}" href="users-profile.html">
+        <a class="nav-link {{ Request::is('') ? '' : 'collapsed' }}" href="">
           <i class="bi bi-card-checklist"></i>
           <span>Stock In</span>
         </a>

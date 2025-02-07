@@ -342,39 +342,39 @@
             });
         });
         // Submit Form untuk Tambah Produk
-        $('#modalDialogScrollable form').on('submit', function(e) {
-            e.preventDefault();
-            let form = $(this);
-            let actionUrl = form.attr('action');
+        // $('#modalDialogScrollable form').on('submit', function(e) {
+        //     e.preventDefault();
+        //     let form = $(this);
+        //     let actionUrl = form.attr('action');
 
-            $.ajax({
-                url: actionUrl,
-                method: 'POST',
-                data: form.serialize(),
-                success: function(response) {
-                    $('#modalDialogScrollable').modal('hide');
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Succes!',
-                        text: 'Product has been added!',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.reload(); // Refresh halaman setelah sukses
-                    });
-                },
-                error: function(xhr) {
-                    let errors = xhr.responseJSON?.errors;
-                    let errorMessages = errors ? Object.values(errors).flat().join('\n') :
-                        'Terjadi kesalahan!';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal!',
-                        text: errorMessages
-                    });
-                }
-            });
-        });
+        //     $.ajax({
+        //         url: actionUrl,
+        //         method: 'POST',
+        //         data: form.serialize(),
+        //         success: function(response) {
+        //             $('#modalDialogScrollable').modal('hide');
+        //             Swal.fire({
+        //                 icon: 'success',
+        //                 title: 'Succes!',
+        //                 text: 'Product has been added!',
+        //                 timer: 2000,
+        //                 showConfirmButton: false
+        //             }).then(() => {
+        //                 window.location.reload(); // Refresh halaman setelah sukses
+        //             });
+        //         },
+        //         error: function(xhr) {
+        //             let errors = xhr.responseJSON?.errors;
+        //             let errorMessages = errors ? Object.values(errors).flat().join('\n') :
+        //                 'Terjadi kesalahan!';
+        //             Swal.fire({
+        //                 icon: 'error',
+        //                 title: 'Gagal!',
+        //                 text: errorMessages
+        //             });
+        //         }
+        //     });
+        // });
         // Submit Form untuk Edit Produk
         $('#editProductForm').on('submit', function(e) {
             e.preventDefault();

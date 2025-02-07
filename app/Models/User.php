@@ -46,4 +46,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function stockout()
+    {
+        return $this->hasMany(Stockout::class, 'removed_by', 'id_user');
+    }
+    public function stockin()
+    {
+        return $this->hasMany(Stockin::class, 'added_by', 'id_user');
+    }
 }
+

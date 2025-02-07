@@ -36,3 +36,4 @@ Route::resource('categori', CategoryController::class)->names('categori');
 Route::resource('product', ProductsController::class)->names('product');
 Route::resource('stockout', StockoutController::class)->names('stockout');
 Route::resource('user', UserController::class)->names('user');
+Route::resource('user', UserController::class)->names('user');

@@ -17,4 +17,12 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'categori_id','id_categori');
     }
+    public function stockout()
+    {
+        return $this->hasMany(Stockout::class, 'product_id', 'id_product');
+     }
+        public function stockin()
+    {
+        return $this->hasMany(Stockin::class, 'product_id', 'id_product');
+     }
 }

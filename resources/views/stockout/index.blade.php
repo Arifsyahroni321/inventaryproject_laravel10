@@ -24,93 +24,70 @@
 
     <div class="card ">
         <div class="card-body">
-            <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable">
-                Tambah
+            <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal"
+                data-bs-target="#modalDialogScrollable">
+                + Add
             </button>
             <div class="table-responsive pt-1">
-                <table id="stockouts-table" class="table table-group-divider">
+                <table id="stockouts-table" class="table table-of-contents">
                     <thead>
                         <tr>
-                            <th>ID product fafaf</th>
-                            <th>Product Name</th>
+                            <th>ID Stockout</th>
+                            <th>Product</th>
                             <th>Quantity</th>
                             <th>Date</th>
-                            <th>Removed By</th>
+                            <th>Removed</th>
                             <th>Description</th>
-                            <th>Created</th>
-                            <th>updated</th>
+                            <th>ِAction</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#stockouts-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ url("/stockout") }}',
-                columns: [
-                    { data: 'id_stockout', name: 'id_stockout' },
-                    { data: 'product_name', name: 'product_name' },
-                    { data: 'quantity', name: 'quantity' },
-                    { data: 'date', name: 'date' },
-                    { data: 'user_name', name: 'user_name' },
-                    { data: 'descr', name: 'descr' },
-                    { data: 'created_at', name: 'created_at' },
-                    { data: 'updated_at', name: 'user_name' }
-                ]
-            });
-        });
-        </script>
-    {{-- <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
+
+    <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <form action="{{ route('product.store') }}" method="POST">
+                <form action="{{ route('stockout.store') }}" method="POST">
                     @csrf <!-- Token CSRF Laravel -->
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Product</h5>
+                        <h5 class="modal-title">Add Stock Out</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="id_product" class="form-label">ID Product</label>
-                            <input type="text" class="form-control" name="id_product" id="id_product"
-                                placeholder="Insert ID Category">
+                            <label for="tambah_product_id" class="form-label">Product</label>
+                            <select class="form-select select2" name="product_id" id="tambah_product_id" required>
+                                <option value="" disabled selected>Chose Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id_product }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name Product</label>
-                            <input type="text" class="form-control" name="name" id="name"
-                                placeholder="Insert Name Product">
-                        </div>
-                        <div class="mb-3">
-                            <label for="tambah_categori_id" class="form-label">Category</label>
-                            <select class="form-select select2" name="categori_id" id="tambah_categori_id" required>
-                                <option value="" disabled selected>Chose Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id_categori }}">{{ $category->name }}</option>
+                            <label for="tambah_user_id" class="form-label">user</label>
+                            <select class="form-select select2" name="removed_by" id="tambah_user_id" required>
+                                <option value="" disabled selected>Chose user</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id_user }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="desc" class="form-label">Description</label>
-                            <textarea class="form-control" name="desc" id="desc" rows="3" placeholder="Insert Description Product"></textarea>
+                            <textarea class="form-control" name="description" id="description" rows="3"
+                                placeholder="Insert Description Product"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" name="price" id="price"
-                                placeholder="Masukkan Price Produk">
-                        </div>
-                        <div class="mb-3">
-                            <label for="stock_quantity" class="form-label">Stock Quantity</label>
-                            <input type="number" class="form-control" name="stock_quantity" id="stock_quantity"
+                            <label for="quantity" class="form-label"> Quantity</label>
+                            <input type="number" class="form-control" name="quantity" id="quantity"
                                 placeholder="Insert Total Stock">
                         </div>
                         <div class="mb-3">
-                            <label for="minimum_stock_level" class="form-label">Minimum Stock Level</label>
-                            <input type="number" class="form-control" name="minimum_stock_level" id="minimum_stock_level"
-                                placeholder="Insert Minimum Stock Level">
+                            <label for="quantity" class="form-label"> Date</label>
+                            <input type="date" class="form-control" name="date" id="date"
+                                placeholder="Insert Date">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -120,49 +97,51 @@
                 </form>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!-- Edit Product Modal -->
-    {{-- <div class="modal fade" id="editProductModal" tabindex="-1">
+    <div class="modal fade" id="editStockoutModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <form id="editProductForm" method="POST">
+                <form id="editStockoutForm" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Product</h5>
+                        <h5 class="modal-title">Edit Stock Out</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="edit_id_product" name="id_product">
                         <div class="mb-3">
-                            <label for="edit_name" class="form-label">Nama Product</label>
-                            <input type="text" class="form-control" name="name" id="edit_name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_categori_id" class="form-label">Categori</label>
-                            <select class="form-select select2" name="categori_id" id="edit_categori_id">
-                                <option value="" disabled selected>Choose Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id_categori }}">{{ $category->name }}</option>
+                            <label for="edit_product_id" class="form-label">stockout</label>
+                            <select class="form-select select2" name="product_id" id="edit_product_id" required>
+                                <option value="" disabled selected>Chose Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id_product }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_desc" class="form-label">Description</label>
-                            <textarea class="form-control" name="desc" id="edit_desc"></textarea>
+                            <label for="edit_user_id" class="form-label">user</label>
+                            <select class="form-select select2" name="removed_by" id="edit_user_id" required>
+                                <option value="" disabled selected>Chose user</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id_user }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_price" class="form-label">Price</label>
-                            <input type="number" class="form-control" name="price" id="edit_price">
+                            <label for="desc" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" id="edit_description" rows="3"
+                                placeholder="Insert Description Product"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_stock_quantity" class="form-label">Stock Quantity</label>
-                            <input type="number" class="form-control" name="stock_quantity" id="edit_stock_quantity">
+                            <label for="quantity" class="form-label"> Quantity</label>
+                            <input type="number" class="form-control" name="quantity" id="edit_quantity"
+                                placeholder="Insert Total Stock">
                         </div>
                         <div class="mb-3">
-                            <label for="edit_minimum_stock_level" class="form-label">Minimum Stock Level</label>
-                            <input type="number" class="form-control" name="minimum_stock_level"
-                                id="edit_minimum_stock_level">
+                            <label for="quantity" class="form-label"> Date</label>
+                            <input type="date" class="form-control" name="date" id="edit_date"
+                                placeholder="Insert Date">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -172,53 +151,49 @@
                 </form>
             </div>
         </div>
-    </div> --}}
+    </div>
     {{-- detail/ show  --}}
-    {{-- <div class="modal fade" id="showProductModal" tabindex="-1" aria-labelledby="showProductModalLabel"
+    <div class="modal fade" id="showStockoutModal" tabindex="-1" aria-labelledby="showStockoutModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="showProductModalLabel">Detail Product</h5>
+                    <h5 class="modal-title" id="showStockoutModalLabel">Detail Stockout</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>ID Product</th>
-                            <td id="product-id"></td>
+                            <th>ID Stockout</th>
+                            <td id="id-stockout"></td>
                         </tr>
                         <tr>
-                            <th>Name</th>
-                            <td id="product-name"></td>
+                            <th>Name product</th>
+                            <td id="stockout-product-name"></td>
                         </tr>
                         <tr>
-                            <th>Category</th>
-                            <td id="product-category"></td>
+                            <th>Removed by</th>
+                            <td id="stockou-user-name"></td>
                         </tr>
                         <tr>
                             <th>Description</th>
-                            <td id="product-desc"></td>
+                            <td id="stockout-desc"></td>
                         </tr>
                         <tr>
-                            <th>Price</th>
-                            <td id="product-price"></td>
+                            <th>Date Stockout</th>
+                            <td id="stockout-date"></td>
                         </tr>
                         <tr>
-                            <th>Stock Quantity</th>
-                            <td id="product-stock-quantity"></td>
-                        </tr>
-                        <tr>
-                            <th>Minimum Stock Level</th>
-                            <td id="product-minimum-stock-level"></td>
+                            <th>Quantity</th>
+                            <td id="stockout-quantity"></td>
                         </tr>
                         <tr>
                             <th>Created At</th>
-                            <td id="product-created-at"></td>
+                            <td id="stockout-created-at"></td>
                         </tr>
                         <tr>
                             <th>Updated At</th>
-                            <td id="product-updated-at"></td>
+                            <td id="stockout-updated-at"></td>
                         </tr>
                     </table>
                 </div>
@@ -227,66 +202,53 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     {{-- //end detail --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // datatables yajra
         $(document).ready(function() {
-            $('#productTable').DataTable({
+            $('#stockouts-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('products.data') }}',
+                ajax: '{{ url('/stockout') }}',
+                // ajax: '{{ route('stockout.index') }}',
                 columns: [{
-                        data: null,
-                        name: 'no',
-                        render: function(data, type, row, meta) {
-                            return meta.row + 1; // Menambahkan nomor otomatis berdasarkan urutan
-                        },
-                        orderable: false,
-                        searchable: false
+                        data: 'id_stockout',
+                        name: 'id_stockout'
                     },
                     {
-                        data: 'id_product',
-                        name: 'id_product'
+                        data: 'product_name',
+                        name: 'product_name'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'quantity',
+                        name: 'quantity'
                     },
                     {
-                        data: 'category',
-                        name: 'category'
+                        data: 'date',
+                        name: 'date'
                     },
                     {
-                        data: 'desc',
-                        name: 'desc'
+                        data: 'user_name',
+                        name: 'user_name'
                     },
                     {
-                        data: 'price',
-                        name: 'price'
+                        data: 'description',
+                        name: 'description'
                     },
-                    {
-                        data: 'stock_quantity',
-                        name: 'stock_quantity'
-                    },
-                    {
-                        data: 'minimum_stock_level',
-                        name: 'minimum_stock_level'
-                    },
-
                     {
                         data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
+                        name: 'action'
                     }
+
                 ]
             });
         });
+    </script>
+    <script>
         //date format  only per date, month & year
         function formatDate(dateString) {
             if (!dateString) return '';
@@ -322,78 +284,46 @@
         @endif
         //edit form
         $('body').on('click', '.btn-edit', function() {
-            let productId = $(this).data('id');
+            let stockout_Id = $(this).data('id');
             $.ajax({
-                url: `/product/${productId}/edit`,
+                url: `/stockout/${stockout_Id}/edit`,
                 method: 'GET',
                 success: function(data) {
-                    $('#edit_id_product').val(data.id_product);
-                    $('#edit_name').val(data.name);
-                    $('#edit_categori_id').val(data.categori_id);
-                    $('#edit_desc').val(data.desc);
-                    $('#edit_price').val(data.price);
-                    $('#edit_stock_quantity').val(data.stock_quantity);
-                    $('#edit_minimum_stock_level').val(data.minimum_stock_level);
+                    console.log(data);
 
-                    $('#editProductForm').attr('action', `/product/${data.id_product}`);
-                    $('#editProductModal').modal('show');
+                    $('#edit_product_id').val(data.product_id).trigger('change');
+                    $('#edit_user_id').val(data.removed_by).trigger('change');
+                    $('#edit_description').val(data.description);
+                    $('#edit_quantity').val(data.quantity);
+                    $('#edit_date').val(data.date);
+
+                    $('#editStockoutForm').attr('action', `/stockout/${data.id_stockout}`);
+                    $('#editStockoutModal').modal('show');
                 },
                 error: function(err) {
-                    alert('Gagal mengambil data produk!');
+                    console.log(err.responseText); // Debug jika ada error
+                    alert('Gagal mengambil data stockout!');
                 }
             });
         });
         // select2
-        $('#editProductModal').on('shown.bs.modal', function() {
-            $('#edit_categori_id').select2({
-                placeholder: "Pilih Kategori",
+        $('#editStockoutModal').on('shown.bs.modal', function() {
+            $('#edit_product_id,#edit_user_id').select2({
+                placeholder: "Pilih ",
                 allowClear: true,
-                dropdownParent: $('#editProductModal')
+                dropdownParent: $('#editStockoutModal')
             });
         });
         $('#modalDialogScrollable').on('shown.bs.modal', function() {
-            $('#tambah_categori_id').select2({
-                placeholder: "Pilih Kategori",
+            $('#tambah_product_id, #tambah_user_id').select2({
+                placeholder: "Pilih",
                 allowClear: true,
                 dropdownParent: $('#modalDialogScrollable')
             });
         });
-        // Submit Form untuk Tambah Produk
-        $('#modalDialogScrollable form').on('submit', function(e) {
-            e.preventDefault();
-            let form = $(this);
-            let actionUrl = form.attr('action');
 
-            $.ajax({
-                url: actionUrl,
-                method: 'POST',
-                data: form.serialize(),
-                success: function(response) {
-                    $('#modalDialogScrollable').modal('hide');
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Succes!',
-                        text: 'Product has been added!',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.reload(); // Refresh halaman setelah sukses
-                    });
-                },
-                error: function(xhr) {
-                    let errors = xhr.responseJSON?.errors;
-                    let errorMessages = errors ? Object.values(errors).flat().join('\n') :
-                        'Terjadi kesalahan!';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal!',
-                        text: errorMessages
-                    });
-                }
-            });
-        });
         // Submit Form untuk Edit Produk
-        $('#editProductForm').on('submit', function(e) {
+        $('#editStockoutForm').on('submit', function(e) {
             e.preventDefault();
             let form = $(this);
             let actionUrl = form.attr('action');
@@ -403,13 +333,13 @@
                 method: 'PUT',
                 data: form.serialize(),
                 success: function(response) {
-                    $('#editProductModal').modal('hide');
-                    $('#productTable').DataTable().ajax.reload();
+                    $('#editStockoutModal').modal('hide');
+                    $('#stockouts-table').DataTable().ajax.reload();
 
                     Swal.fire({
                         icon: 'success',
                         title: 'Success!',
-                        text: 'Product has been updated!',
+                        text: 'Stockout has been updated!',
                         timer: 2000,
                         showConfirmButton: false
                     });
@@ -454,22 +384,28 @@
                 url: url,
                 method: 'GET',
                 success: function(response) {
-                    $('#product-id').text(response.id_product);
-                    $('#product-name').text(response.name);
-                    $('#product-category').text(response.category ? response.category.name :
+                    $('#id-stockout').text(response.id_stockout);
+                    $('#stockout-product-name').text(response.product ? response.product.name :
                         'Uncategorized');
-                    $('#product-desc').text(response.desc);
-                    $('#product-price').text(response.price);
-                    $('#product-stock-quantity').text(response.stock_quantity);
-                    $('#product-minimum-stock-level').text(response.minimum_stock_level);
-                    $('#product-created-at').text(response.created_at);
-                    $('#product-updated-at').text(response.updated_at);
-                    $('#showProductModal').modal('show');
+                    $('#stockou-user-name').text(response.user ? response.user.name : 'Uncategorized');
+                    $('#stockout-desc').text(response.description);
+                    $('#stockout-date').text(formatDate(response.date));
+                    $('#stockout-quantity').text(response.quantity);
+                    $('#stockout-created-at').text(formatDate(response.created_at));
+                    $('#stockout-updated-at').text(formatDate(response.updated_at));
+                    $('#showStockoutModal').modal('show');
+
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
                 }
             });
         });
+        function formatDate(dateString) {
+            if (!dateString) return '-'; // Jika tidak ada tanggal, tampilkan "-"
+
+            let date = new Date(dateString);
+            return date.toISOString().split('T')[0]; // Mengambil hanya YYYY-MM-DD
+        }
     </script>
 @endsection

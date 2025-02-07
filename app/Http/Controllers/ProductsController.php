@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Stockout;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 
@@ -160,13 +161,14 @@ class ProductsController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $product = Product::findOrFail($id);
-            $product->delete();
+        $product = Product::findOrFail($id);
+        $productCount = Stockout::where('product_id', $id)->count();
 
-            return redirect()->route('product.index')->with('success', 'Produk berhasil dihapus');
-        } catch (\Exception $e) {
-            return redirect()->route('product.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        if ($productCount > 0) {
+            return redirect()->route('product.index')->with('error', 'Produk tidak bisa dihapus karena sudah digunakan dalam transaksi stockout.');
         }
+        $product->delete();
+        return redirect()->route('product.index')->with('success', 'Produk berhasil dihapus.');
+
     }
 }
