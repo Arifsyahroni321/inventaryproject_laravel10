@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\StockinController;
 use App\Http\Controllers\StockoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,4 @@ Route::resource('categori', CategoryController::class)->names('categori');
 Route::resource('product', ProductsController::class)->names('product');
 Route::resource('stockout', StockoutController::class)->names('stockout');
 Route::resource('user', UserController::class)->names('user');
-Route::resource('user', UserController::class)->names('user');
+Route::resource('stockin', StockinController::class)->names('stockin');

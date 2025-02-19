@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Stockin;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StockinController extends Controller
@@ -11,7 +14,35 @@ class StockinController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        $users = User::all();
+        if (request()->ajax()) {
+            $stockin = Stockin::with(['product', 'user'])->get();
+            return datatables()->of($stockin)
+                ->addColumn('product_name', function($row) {
+                    return $row->product->name;
+                })
+                ->addColumn('user_name', function($row) {
+                    return $row->user->name;
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                   <div class="btn-group" role="group" aria-label="Aksi">
+                    <button data-id="' . $row->id_stockin . '" class="btn btn-sm btn-warning btn-edit"><i class="bi-pen-fill"></i></button>
+                   <a href="/stockin/' . $row->id_stockin . '" class="btn btn-sm btn-info " title="Lihat"><i class="bi-eye-fill"></i></a>
+                        <form action="' . route('stockin.destroy', $row->id_stockin) . '" method="POST" class="delete-form" >
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-sm btn-danger delete-button" title="Hapus"><i class="bi-trash-fill"></i></button>
+                        </form>
+                    </div>
+                ';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('stockin.index',compact('products','users'));
+
     }
 
     /**
@@ -27,7 +58,7 @@ class StockinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

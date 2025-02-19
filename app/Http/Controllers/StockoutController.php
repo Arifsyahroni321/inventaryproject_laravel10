@@ -116,6 +116,7 @@ class StockoutController extends Controller
                 'status' => 'error',
                 'message' => 'Stockout not found'
             ], 404);
+
         }
 
         return response()->json($stockout);
