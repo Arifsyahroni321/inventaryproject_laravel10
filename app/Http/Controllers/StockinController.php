@@ -50,7 +50,7 @@ class StockinController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -58,7 +58,38 @@ class StockinController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $validated = $request->validate([
 
+                'product_id' => 'required|exists:products,id_product',
+                'quantity' => 'required|integer|min:0',
+                'description' => 'required|string',
+                'added_by' => 'required|exists:users,id_user',
+
+            ], [
+                // 'id_stockout.required' => 'ID stock harus diisi.',
+                // 'id_stockout.unique' => 'ID stock sudah ada.',
+                'product_id.required' => 'ID produk harus diisi.',
+                'product_id.exists' => 'Produk tidak ditemukan.',
+                'quantity.required' => 'Jumlah harus diisi.',
+                'added_by.required' => 'removed harus diisi.',
+                'description.required' => 'description harus diisi.',
+                'added_by.exists' => 'removed fiel tidak ditemukan.',
+
+            ]);
+
+            // Simpan data ke database
+            Stockin::create([
+                'product_id' => $validated['product_id'],
+                'quantity' => $validated['quantity'],
+                'description' => $validated['description'],
+                'added_by' => $validated['added_by'],
+            ]);
+
+            return redirect()->route('stockin.index')->with('success', 'stockin berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return redirect()->route('stockin.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**

@@ -57,6 +57,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label for="id_stockin" class="form-label"> id_stockin</label>
+                            <input type="number" class="form-control" name="id_stockin" id="edit_id_stockin"
+                                placeholder="Insert Total Stock">
+                        </div>
+                        <div class="mb-3">
                             <label for="tambah_product_id" class="form-label">Product</label>
                             <select class="form-select select2" name="product_id" id="tambah_product_id" required>
                                 <option value="" disabled selected>Chose Product</option>
@@ -67,7 +72,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="tambah_user_id" class="form-label">user</label>
-                            <select class="form-select select2" name="removed_by" id="tambah_user_id" required>
+                            <select class="form-select select2" name="added_by" id="tambah_user_id" required>
                                 <option value="" disabled selected>Chose user</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id_user }}">{{ $user->name }}</option>
@@ -106,6 +111,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="id_stockin" class="form-label"> id_stockin</label>
+                            <input type="number" class="form-control" name="id_stockin" id="edit_id_stockin"
+                                placeholder="Insert Total Stock">
+                        </div>
                         <div class="mb-3">
                             <label for="edit_product_id" class="form-label">stockout</label>
                             <select class="form-select select2" name="product_id" id="edit_product_id" required>
@@ -168,8 +178,8 @@
                             <td id="stockout-product-name"></td>
                         </tr>
                         <tr>
-                            <th>Removed by</th>
-                            <td id="stockou-user-name"></td>
+                            <th>Added by</th>
+                            <td id="stockout-user-name"></td>
                         </tr>
                         <tr>
                             <th>Description</th>
